@@ -88,43 +88,43 @@ const Dashboard: React.FC = () => {
 
     return total < 0
       ? {
-          totalBalance: total,
-          message: {
-            title: "Que triste!",
-            description: "Neste mês você gastou mais do que deveria.",
-            footerText:
-              "Verifique seus gastos e tente cortar algumas coisas desnecessárias.",
-            icon: sadImg,
-          },
-        }
+        totalBalance: total,
+        message: {
+          title: "Que triste!",
+          description: "Neste mês você gastou mais do que deveria.",
+          footerText:
+            "Verifique seus gastos e tente cortar algumas coisas desnecessárias.",
+          icon: sadImg,
+        },
+      }
       : {
-          totalBalance: total,
-          message: {
-            title: "Muito bem!",
-            description: "Neste mês você esteve bem no balanço.",
-            footerText:
-              "Continue assim. Considere investir seu saldo quando for possível.",
-            icon: happyImg,
-          },
-        };
+        totalBalance: total,
+        message: {
+          title: "Muito bem!",
+          description: "Neste mês você esteve bem no balanço.",
+          footerText:
+            "Continue assim. Considere investir seu saldo quando for possível.",
+          icon: happyImg,
+        },
+      };
   }, [totalExpenses, totalGains]);
 
   const expensesAndGainsRelation = useMemo(() => {
     const total = totalGains + totalExpenses;
-    const gainsPercent = (totalGains / total) * 100;
-    const expensesPercent = (totalExpenses / total) * 100;
+    const gainsPercent = Number(((totalGains / total) * 100).toFixed(1));
+    const expensesPercent = Number(((totalExpenses / total) * 100).toFixed(1));
 
     return [
       {
         name: "Entradas",
         value: totalGains,
-        percent: gainsPercent.toFixed(1),
+        percent: gainsPercent || 0,
         color: "#E44C4E",
       },
       {
         name: "Saídas",
         value: totalExpenses,
-        percent: expensesPercent.toFixed(1),
+        percent: expensesPercent || 0,
         color: "#F7931B",
       },
     ];
@@ -171,7 +171,7 @@ const Dashboard: React.FC = () => {
       );
   }, [selectedYear]);
 
-  const recurrentAndEventualRelation = useMemo(() => {
+  const expensesRecurrentAndEventualRelation = useMemo(() => {
     let amountRecurrent = 0,
       amountEventual = 0;
 
@@ -184,7 +184,7 @@ const Dashboard: React.FC = () => {
         );
       })
       .forEach((expense) => {
-        switch (expense.type) {
+        switch (expense.frequency) {
           case "recorrente":
             amountRecurrent += Number(expense.amount);
             break;
@@ -206,13 +206,60 @@ const Dashboard: React.FC = () => {
       {
         name: "Recorrentes",
         amount: amountRecurrent,
-        recurrentPercent,
+        percent: recurrentPercent,
         color: "#F7931B",
       },
       {
         name: "Eventuais",
         amount: amountEventual,
-        recurrentEventual,
+        percent: recurrentEventual,
+        color: "#E44C4E",
+      },
+    ];
+  }, [selectedMonth, selectedYear]);
+
+  const gainsRecurrentAndEventualRelation = useMemo(() => {
+    let amountRecurrent = 0,
+      amountEventual = 0;
+
+    gains
+      .filter((gain) => {
+        const date = moment(gain.date, "YYYY-MM-DD");
+        return (
+          date.format("M") === selectedMonth &&
+          String(date.year()) === selectedYear
+        );
+      })
+      .forEach((gain) => {
+        switch (gain.frequency) {
+          case "recorrente":
+            amountRecurrent += Number(gain.amount);
+            break;
+          case "eventual":
+            amountEventual += Number(gain.amount);
+            break;
+        }
+      });
+
+    const total = amountRecurrent + amountEventual;
+    const recurrentPercent = Number(
+      ((amountRecurrent / total) * 100).toFixed(1)
+    );
+    const recurrentEventual = Number(
+      ((amountEventual / total) * 100).toFixed(1)
+    );
+
+    return [
+      {
+        name: "Recorrentes",
+        amount: amountRecurrent,
+        percent: recurrentPercent || 0,
+        color: "#F7931B",
+      },
+      {
+        name: "Eventuais",
+        amount: amountEventual,
+        percent: recurrentEventual || 0,
         color: "#E44C4E",
       },
     ];
@@ -272,7 +319,14 @@ const Dashboard: React.FC = () => {
           amountExitLineColor="#E44C4E"
         />
 
-        <BarChartBox />
+        <BarChartBox
+          title="Saídas"
+          data={expensesRecurrentAndEventualRelation} />
+
+        <BarChartBox
+          title="Entradas"
+          data={gainsRecurrentAndEventualRelation} />
+
       </Content>
     </Container>
   );

@@ -20,7 +20,7 @@ interface IPieChartBoxProps {
     data: {
         name: string;
         value: number;
-        percent: string;
+        percent: number;
         color: string;
     }[]
 }
@@ -45,7 +45,7 @@ const PieChartBox: React.FC<IPieChartBoxProps> = ({ data }) =>
             <SideRight>
                 <ResponsiveContainer>
                     <PieChart>
-                        <Pie data={data} dataKey="value" >
+                        <Pie data={data} dataKey="percent" >
                             {
                                 data.map(indicator =>
                                     <Cell key={indicator.name} fill={indicator.color} />
