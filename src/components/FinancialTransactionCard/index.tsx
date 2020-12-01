@@ -13,8 +13,8 @@ const FinancialTransactionCard: React.FC<IFinancialTransactionCardProps> = ({
     title,
     subTitle,
     amount
-}) => {
-    return (
+}) =>
+    (
         <Container>
             <Tag color={tagColor} />
             <div>
@@ -24,6 +24,6 @@ const FinancialTransactionCard: React.FC<IFinancialTransactionCardProps> = ({
             <h3>{amount}</h3>
         </Container>
     );
-}
+
 
 export default FinancialTransactionCard;

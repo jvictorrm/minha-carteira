@@ -1,13 +1,16 @@
 import React from 'react';
 import { ThemeProvider } from 'styled-components';
 import GlobalStyles from './styles/GlobalStyles'
-import darkTheme from './styles/themes/dark';
-import lightTheme from './styles/themes/light';
+
+import { useTheme } from "./hooks/theme";
+
 import Routes from './routes';
 
 const App: React.FC = () => {
+    const { theme } = useTheme();
+
     return (
-        <ThemeProvider theme={darkTheme}>
+        <ThemeProvider theme={theme}>
             <GlobalStyles />
             <Routes />
         </ThemeProvider>

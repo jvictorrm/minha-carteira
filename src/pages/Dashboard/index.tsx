@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useCallback } from "react";
 import moment from "moment";
 import "moment/locale/pt-br";
 
@@ -265,17 +265,25 @@ const Dashboard: React.FC = () => {
     ];
   }, [selectedMonth, selectedYear]);
 
+  const handleSelectedMonth = useCallback((month: string) => {
+    setSelectedMonth(month);
+  }, []);
+
+  const handleSelectedYear = useCallback((year: string) => {
+    setSelectedYear(year);
+  }, []);
+
   return (
     <Container>
       <ContentHeader title="Dashboard" lineColor="#F7931B">
         <SelectInput
           options={months}
-          onChange={(e) => setSelectedMonth(e.target.value)}
+          onChange={(e) => handleSelectedMonth(e.target.value)}
           defaultValue={selectedMonth}
         />
         <SelectInput
           options={years}
-          onChange={(e) => setSelectedYear(e.target.value)}
+          onChange={(e) => handleSelectedYear(e.target.value)}
           defaultValue={selectedYear}
         />
       </ContentHeader>

@@ -14,8 +14,8 @@ const MessageBox: React.FC<IMessageBoxProps> = ({
     description,
     footerText,
     icon
-}) => {
-    return (
+}) =>
+    (
         <Container>
             <header>
                 <h1>
@@ -30,6 +30,5 @@ const MessageBox: React.FC<IMessageBoxProps> = ({
             </footer>
         </Container>
     );
-}
 
 export default MessageBox;

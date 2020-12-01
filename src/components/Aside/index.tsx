@@ -16,8 +16,8 @@ import {
 } from 'react-icons/md';
 
 
-const Aside: React.FC = () => {
-    return (
+const Aside: React.FC = () =>
+    (
         <Container>
             <Header>
                 <LogoImg src={logoImgPath} alt="Logo Minha Carteira" />
@@ -44,6 +44,5 @@ const Aside: React.FC = () => {
             </Menu>
         </Container>
     );
-}
 
 export default Aside;
