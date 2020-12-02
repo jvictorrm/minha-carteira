@@ -5,9 +5,13 @@ import {
     LogoImg,
     Menu,
     MenuItemLink,
+    MenuItemButton,
     Title
 } from './styles';
+
 import logoImgPath from '../../assets/logo.svg';
+import { useAuth } from '../../hooks/auth';
+
 import {
     MdDashboard,
     MdArrowDownward,
@@ -16,8 +20,10 @@ import {
 } from 'react-icons/md';
 
 
-const Aside: React.FC = () =>
-    (
+const Aside: React.FC = () => {
+    const { signOut } = useAuth();
+
+    return (
         <Container>
             <Header>
                 <LogoImg src={logoImgPath} alt="Logo Minha Carteira" />
@@ -25,7 +31,7 @@ const Aside: React.FC = () =>
             </Header>
 
             <Menu>
-                <MenuItemLink href="/dashboard">
+                <MenuItemLink href="/">
                     <MdDashboard />
                     Dashboard
                 </MenuItemLink>
@@ -37,12 +43,13 @@ const Aside: React.FC = () =>
                     <MdArrowDownward />
                     Saídas
                 </MenuItemLink>
-                <MenuItemLink href="#">
+                <MenuItemButton onClick={signOut}>
                     <MdExitToApp />
                     Sair
-                </MenuItemLink>
+                </MenuItemButton>
             </Menu>
         </Container>
     );
+};
 
 export default Aside;

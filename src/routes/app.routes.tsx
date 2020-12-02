@@ -7,7 +7,7 @@ import FinancialTransactions from '../pages/FinancialTransactions';
 const AppRoutes: React.FC = () => (
     <Layout>
         <Switch>
-            <Route exact path="/dashboard" component={Dashboard} />
+            <Route exact path="/" component={Dashboard} />
             <Route exact path="/financial-transactions/:type" component={FinancialTransactions} />
         </Switch>
     </Layout>
