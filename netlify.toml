@@ -1,5 +1,5 @@
 [build]
 
 base = "."
-command = "yarn build"
+command = "CI=false && yarn build"
 publish = "./build/"
