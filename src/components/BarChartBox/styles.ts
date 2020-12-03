@@ -1,8 +1,24 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
 interface ILabelProps {
   color: string;
 }
+
+const animate = keyframes`
+    0% {
+        transform: translateY(100px);
+        opacity: 0;
+    }
+
+    50% {
+        opacity: .3;
+    }
+
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+`;
 
 export const Container = styled.div`
   width: 49%;
@@ -17,6 +33,14 @@ export const Container = styled.div`
 
   display: flex;
   justify-content: space-between;
+
+  animation: ${animate} .5s;
+
+  @media(max-width: 1200px) {
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+  }
 `;
 
 export const SideLeft = styled.aside`
@@ -27,6 +51,7 @@ export const SideLeft = styled.aside`
     padding-left: 16px;
     margin-bottom: 10px;
   }
+
 `;
 
 export const LabelContainer = styled.ul`
@@ -49,6 +74,11 @@ export const LabelContainer = styled.ul`
     ::-webkit-scrollbar-track {
         background-color: ${props => props.theme.colors.tertiary};
     }
+
+    @media(max-width: 1200px) {
+      display: flex;
+      height: auto;
+    } 
 `;
 
 export const Label = styled.div<ILabelProps>`
@@ -73,7 +103,17 @@ export const Label = styled.div<ILabelProps>`
     }
 
     > span {
-        margin-left: 5px;
+        margin: 0 10px;
+    }
+
+    @media(max-width: 1200px) {
+      > div {          
+        height: 30px;
+        width: 30px;
+        line-height: 30px;
+        
+        font-size: 10px;
+      }
     }
 `;
 
